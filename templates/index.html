@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DermAI — Intelligent Skin Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="noise"></div>
+
+<!-- ══════════════════ LANDING PAGE ══════════════════ -->
+<div id="landingPage">
+  <div class="mesh-bg">
+    <div class="mesh-orb orb1"></div>
+    <div class="mesh-orb orb2"></div>
+    <div class="mesh-orb orb3"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="lnav" id="lnav">
+    <a class="lnav-logo" href="#">
+      <div class="lnav-mark"><svg viewBox="0 0 20 20" fill="none" stroke="white" stroke-width="1.7"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="7.5" ry="3" fill="white" opacity=".3" stroke="none"/><circle cx="10" cy="10" r="2.5" fill="white" stroke="none"/></svg></div>
+      <span class="lnav-wordmark">Derm<span>AI</span></span>
+    </a>
+    <div class="lnav-links">
+      <button class="lnav-link" onclick="scrollTo('#features-sec')">Features</button>
+      <button class="lnav-link" onclick="scrollTo('#how-sec')">How it works</button>
+      <button class="lnav-link" onclick="scrollTo('#conditions-sec')">Conditions</button>
+      <button class="lnav-link" onclick="scrollTo('#testi-sec')">Reviews</button>
+      <div class="lnav-tsw" style="margin-right:8px;">
+        <button class="lnav-tb on" id="ln-light" onclick="setTheme('light')" title="Light"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="2.2"/><path d="M6 1v1M6 10v1M1 6h1M10 6h1M2.5 2.5l.7.7M8.8 8.8l.7.7M2.5 9.5l.7-.7M8.8 3.2l.7-.7"/></svg></button>
+        <button class="lnav-tb" id="ln-dark" onclick="setTheme('dark')" title="Dark"><svg viewBox="0 0 12 12"><path d="M10 7A5 5 0 015 2a5 5 0 100 10 5 5 0 005-5z"/></svg></button>
+        <button class="lnav-tb" id="ln-system" onclick="setTheme('system')" title="Auto"><svg viewBox="0 0 12 12"><rect x="1" y="2" width="10" height="7" rx="1"/><path d="M4 11h4M6 9v2"/></svg></button>
+      </div>
+      <button class="lnav-link" onclick="showAuth('signin')">Sign In</button>
+      <button class="lnav-cta" onclick="showAuth('signup')">Get started free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><div class="hero-badge-dot"></div> AI-powered · 200+ skin conditions · Instant analysis</div>
+    <h1>Your skin,<br><em>decoded</em> by AI</h1>
+    <p class="hero-sub">Upload a photo or describe your symptoms. DermAI analyzes skin conditions with clinical-grade AI in under 30 seconds.</p>
+    <div class="hero-actions">
+      <button class="hero-btn-main" onclick="showAuth('signup')">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3l2 2"/></svg>
+        Start free analysis
+      </button>
+      <button class="hero-btn-sec" onclick="scrollTo('#how-sec')">See how it works</button>
+    </div>
+
+    <!-- HERO VISUAL -->
+    <div class="hero-visual">
+      <div class="hero-card-wrap">
+        <div class="hero-card-inner">
+          <div class="hci-bar">
+            <div class="hci-dot"></div><div class="hci-dot"></div><div class="hci-dot"></div>
+            <div class="hci-bar-txt">dermai.app — Skin Analysis</div>
+          </div>
+          <div class="hci-body">
+            <div class="hci-img">
+              <div class="skin-anim">
+                <div class="scan-line"></div>
+                <div class="scan-dots">
+                  <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
+                  <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
+                  <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
+                </div>
+              </div>
+              <div class="hci-img-lbl">Analyzing…</div>
+            </div>
+            <div class="hci-result">
+              <div style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);">Primary Diagnosis</div>
+              <div class="hci-dx-name">Atopic Dermatitis</div>
+              <div class="hci-conf-row">
+                <div>
+                  <div class="hci-conf-big">87%</div>
+                  <div class="hci-conf-lbl">Confidence</div>
+                </div>
+                <div style="flex:1;padding-left:14px;">
+                  <div class="hci-bar2"><div class="hci-bar2-fill"></div></div>
+                  <div style="font-size:11px;color:var(--text3);">High confidence match</div>
+                </div>
+              </div>
+              <div class="hci-tags">
+                <span class="hci-tag warn">Moderate</span>
+                <span class="hci-tag ok">Non-contagious</span>
+                <span class="hci-tag info">Chronic</span>
+              </div>
+              <div class="hci-treats">
+                <div class="hci-treat"><div class="hci-treat-n">01</div><div>Fragrance-free moisturizer twice daily</div></div>
+                <div class="hci-treat"><div class="hci-treat-n">02</div><div>1% hydrocortisone for flares</div></div>
+                <div class="hci-treat"><div class="hci-treat-n">03</div><div>Avoid known triggers</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FLOAT CARDS -->
+        <div class="float-card float-card-1">
+          <div class="fc-label">Conditions analyzed</div>
+          <div class="fc-val">200<span style="color:var(--accent);font-size:28px;font-family:var(--font-mono);">+</span></div>
+          <div class="fc-sub">Dermatological database</div>
+        </div>
+        <div class="float-card float-card-2">
+          <div class="fc-label">Result accuracy</div>
+          <div class="fc-pill">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M1.5 5l2.5 3L8.5 2"/></svg>
+            94% overall
+          </div>
+          <div class="fc-sub" style="margin-top:4px;">Clinician-validated</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll" onclick="scrollTo('#stats-sec')">
+      <div class="hero-scroll-line"></div>
+      Scroll to explore
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Eczema & Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Acne & Rosacea</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Psoriasis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Fungal Infections</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Skin Cancer Screening</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Contact Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Vitiligo</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Hives & Urticaria</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Seborrheic Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Warts & Molluscum</div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Eczema & Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Acne & Rosacea</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Psoriasis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Fungal Infections</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Skin Cancer Screening</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Contact Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Vitiligo</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Hives & Urticaria</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Seborrheic Dermatitis</div>
+      <div class="marquee-item"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M4.5 7l2 2 3-3"/></svg> Warts & Molluscum</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="stats-section" id="stats-sec">
+    <div class="stats-inner">
+      <div class="stat-item"><div class="stat-num">200<span>+</span></div><div class="stat-lbl">Skin conditions covered</div><div class="stat-sub">From common to rare</div></div>
+      <div class="stat-item"><div class="stat-num">94<span>%</span></div><div class="stat-lbl">Diagnostic accuracy</div><div class="stat-sub">Clinician-validated model</div></div>
+      <div class="stat-item"><div class="stat-num">30<span>s</span></div><div class="stat-lbl">Average analysis time</div><div class="stat-sub">Instant results, always</div></div>
+      <div class="stat-item"><div class="stat-num">50<span>K+</span></div><div class="stat-lbl">Analyses completed</div><div class="stat-sub">And growing daily</div></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features-sec">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-h">Everything you need to understand <em>your skin</em></h2>
+    <p class="section-sub">A comprehensive toolkit for skin health, powered by the latest dermatological AI research.</p>
+    <div class="feat-grid">
+      <div class="feat-card big">
+        <div style="flex:1;">
+          <div class="feat-ico"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M7 11c0-3 8-3 8 0s-8 3-8 0z" fill="currentColor" opacity=".2" stroke="none"/><circle cx="11" cy="11" r="2.5" fill="currentColor" stroke="none" opacity=".6"/></svg></div>
+          <div class="feat-title">Photo & Symptom Analysis</div>
+          <div class="feat-desc">Upload a photo or describe your symptoms in detail. Our multi-modal AI cross-references both inputs for dramatically higher accuracy than photo-only tools.</div>
+        </div>
+        <div class="feat-visual">
+          <div style="position:relative;width:80px;height:80px;">
+            <svg viewBox="0 0 80 80" style="position:absolute;inset:0;">
+              <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(var(--accent-rgb),.15)" stroke-width="2"/>
+              <circle cx="40" cy="40" r="36" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="226" stroke-dashoffset="30" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" values="0 40 40;360 40 40" dur="8s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="40" cy="40" r="24" fill="none" stroke="rgba(var(--accent-rgb),.2)" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <circle cx="40" cy="40" r="10" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="1.5"/>
+              <circle cx="40" cy="40" r="4" fill="var(--accent)"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico"><svg viewBox="0 0 22 22"><path d="M3 14l4-4 4 4 4-6 4 4"/><rect x="2" y="3" width="18" height="14" rx="2"/><path d="M7 20h8"/></svg></div>
+        <div class="feat-title">Confidence Scoring</div>
+        <div class="feat-desc">Every diagnosis comes with a transparent confidence score and a ranked list of differential diagnoses so you know exactly what's certain and what isn't.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico"><svg viewBox="0 0 22 22"><path d="M9 11l3 3 7-7"/><circle cx="11" cy="11" r="8"/></svg></div>
+        <div class="feat-title">Treatment Guidance</div>
+        <div class="feat-desc">Evidence-based treatment suggestions ranked from home remedies to prescription options, with clear "when to see a doctor" signals.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico"><svg viewBox="0 0 22 22"><circle cx="8" cy="8" r="3"/><circle cx="14" cy="8" r="3"/><path d="M2 18c0-3 2.5-5 6-5h6c3.5 0 6 2 6 5"/></svg></div>
+        <div class="feat-title">Community Remedies</div>
+        <div class="feat-desc">Browse real experiences from thousands of people managing similar conditions. Upvote remedies that helped, share your own journey.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico"><svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="8"/><path d="M11 7v4l2.5 2.5"/></svg></div>
+        <div class="feat-title">Analysis History</div>
+        <div class="feat-desc">Track your skin health over time with a complete history of all your analyses. Notice patterns and progress with timeline views.</div>
+      </div>
+      <div class="feat-card big">
+        <div style="flex:1;">
+          <div class="feat-ico"><svg viewBox="0 0 22 22"><rect x="3" y="3" width="16" height="16" rx="3"/><path d="M7 11h8M7 7h5M7 15h3"/></svg></div>
+          <div class="feat-title">PDF Export & Reports</div>
+          <div class="feat-desc">Generate professional-grade PDF reports of your diagnosis to share with your dermatologist or keep for your own records. Includes full analysis, confidence scores, and treatment plans.</div>
+        </div>
+        <div class="feat-visual">
+          <div style="display:flex;flex-direction:column;gap:6px;padding:16px;width:100%;">
+            <div style="height:8px;width:60%;background:var(--accent-light);border-radius:4px;border:1px solid rgba(var(--accent-rgb),.2);"></div>
+            <div style="height:6px;width:90%;background:var(--surface3);border-radius:4px;"></div>
+            <div style="height:6px;width:75%;background:var(--surface3);border-radius:4px;"></div>
+            <div style="height:6px;width:85%;background:var(--surface3);border-radius:4px;"></div>
+            <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+            <div style="display:flex;gap:6px;">
+              <div style="flex:1;height:40px;background:var(--accent-light);border-radius:6px;border:1px solid rgba(var(--accent-rgb),.2);"></div>
+              <div style="flex:1;height:40px;background:var(--surface3);border-radius:6px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how-sec">
+    <div class="how-inner">
+      <div class="section-eyebrow">Process</div>
+      <h2 class="section-h">Get your diagnosis in <em>three steps</em></h2>
+      <p class="section-sub">No appointment needed. No waiting room. Just clear, actionable insights about your skin — in seconds.</p>
+      <div class="how-steps">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div class="step-title">Upload or describe</div>
+          <div class="step-desc">Take a clear photo of the affected area, or fill in the detailed symptom form — or both. More data means higher accuracy.</div>
+          <div class="step-conn"></div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div class="step-title">AI analysis</div>
+          <div class="step-desc">Our model cross-references your inputs against 200+ conditions, factoring in skin type, duration, location, and symptom patterns.</div>
+          <div class="step-conn"></div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div class="step-title">Your report is ready</div>
+          <div class="step-desc">Review your diagnosis, confidence score, differential diagnoses, treatment options, and when to seek professional care.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONDITIONS -->
+  <section class="cond-section" id="conditions-sec">
+    <div class="section-eyebrow">Coverage</div>
+    <h2 class="section-h">200+ conditions <em>in our database</em></h2>
+    <p class="section-sub">From the most common everyday skin issues to rare dermatological conditions — we've got it covered.</p>
+    <div class="cond-grid">
+      <span class="cond-pill highlight">Atopic Dermatitis</span><span class="cond-pill">Contact Dermatitis</span><span class="cond-pill">Psoriasis</span><span class="cond-pill highlight">Acne Vulgaris</span><span class="cond-pill">Rosacea</span><span class="cond-pill">Seborrheic Dermatitis</span><span class="cond-pill highlight">Tinea (Ringworm)</span><span class="cond-pill">Tinea Versicolor</span><span class="cond-pill">Vitiligo</span><span class="cond-pill">Urticaria (Hives)</span><span class="cond-pill">Melanoma Screening</span><span class="cond-pill highlight">Folliculitis</span><span class="cond-pill">Impetigo</span><span class="cond-pill">Cellulitis</span><span class="cond-pill">Herpes Zoster</span><span class="cond-pill highlight">Molluscum Contagiosum</span><span class="cond-pill">Warts (Verruca)</span><span class="cond-pill">Scabies</span><span class="cond-pill">Pityriasis Rosea</span><span class="cond-pill">Lichen Planus</span><span class="cond-pill highlight">Sebaceous Cysts</span><span class="cond-pill">Keratosis Pilaris</span><span class="cond-pill">Drug Eruptions</span><span class="cond-pill">Erythema Multiforme</span><span class="cond-pill">Pemphigus</span><span class="cond-pill highlight">Basal Cell Carcinoma</span><span class="cond-pill">Squamous Cell Carcinoma</span><span class="cond-pill">Cherry Angiomas</span>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section" id="testi-sec">
+    <div class="testi-inner">
+      <div class="section-eyebrow">Reviews</div>
+      <h2 class="section-h">What people are <em>saying</em></h2>
+      <p class="section-sub">Thousands of people use DermAI to get faster clarity about their skin health.</p>
+      <div class="testi-grid">
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+          </div>
+          <div class="tcard-quote">I uploaded a photo of a rash on my arm and had a diagnosis in less than 30 seconds. My dermatologist confirmed it was exactly right. Saved me a 3-week wait for an appointment.</div>
+          <div class="tcard-author"><div class="tcard-av" style="background:#7E5A3A;">P</div><div><div class="tcard-name">Priya S.</div><div class="tcard-role">Bangalore, India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+          </div>
+          <div class="tcard-quote">As someone managing chronic eczema, the treatment recommendations here are genuinely excellent — practical, prioritized, and evidence-based. The community section is a bonus I didn't expect to love.</div>
+          <div class="tcard-author"><div class="tcard-av" style="background:#3A5E7A;">R</div><div><div class="tcard-name">Rahul M.</div><div class="tcard-role">Mumbai, India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+            <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3.2L11 4.7 8.5 7l.6 3.3L6 8.7 3 10.4l.5-3.3L1 4.7l3.5-.5z"/></svg>
+          </div>
+          <div class="tcard-quote">I've been a dermatologist for 12 years. For general population screening and education, this tool is genuinely impressive. The differential diagnosis list is clinically sensible.</div>
+          <div class="tcard-author"><div class="tcard-av" style="background:#4A3A7A;">D</div><div><div class="tcard-name">Dr. Anjali K.</div><div class="tcard-role">Dermatologist, Delhi</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <h2 class="cta-h">Your skin deserves<br><em>clear answers</em></h2>
+    <p class="cta-sub">Start your first analysis free. No credit card, no waiting room, no guesswork.</p>
+    <div class="cta-actions">
+      <button class="cta-btn" onclick="showAuth('signup')">Get started — it's free</button>
+      <button class="cta-btn-outline" onclick="showAuth('signin')">Sign in</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent)" stroke-width="1.7" width="22" height="22"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="7.5" ry="3" fill="var(--accent)" opacity=".2" stroke="none"/><circle cx="10" cy="10" r="2.5" fill="var(--accent)" stroke="none"/></svg><span class="footer-logo-text">Derm<span>AI</span></span></div>
+    <div class="footer-links">
+      <span class="footer-link">Privacy</span>
+      <span class="footer-link">Terms</span>
+      <span class="footer-link">About</span>
+      <span class="footer-link">Contact</span>
+    </div>
+    <span class="footer-copy">© 2026 DermAI. For informational use only.</span>
+  </footer>
+</div>
+
+<!-- ══════════════════ AUTH MODAL ══════════════════ -->
+<div id="authGate" onclick="closeAuthGate(event)">
+  <div class="auth-card">
+    <button class="auth-close" onclick="closeAuth()"><svg viewBox="0 0 13 13"><path d="M2 2l9 9M11 2l-9 9" stroke-linecap="round"/></svg></button>
+    <div class="auth-logo-row">
+      <div class="auth-logo-mark2"><svg viewBox="0 0 20 20" fill="none" stroke="white" stroke-width="1.7"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="7.5" ry="3" fill="white" opacity=".3" stroke="none"/><circle cx="10" cy="10" r="2.5" fill="white" stroke="none"/></svg></div>
+      <span class="auth-logo-text2">Derm<span>AI</span></span>
+    </div>
+    <div class="auth-headline" id="authHeadline">Create account</div>
+    <div class="auth-sub" id="authSubtext">Join DermAI and start your skin health journey.</div>
+    <div class="auth-tabs">
+      <button class="auth-tab" id="tabSignIn" onclick="switchAuthTab('signin')">Sign In</button>
+      <button class="auth-tab on" id="tabSignUp" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+    <button class="g-btn" onclick="googleAuth()">
+      <svg class="g-logo" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <div class="auth-divider">or</div>
+    <div id="signInForm" style="display:none">
+      <div class="af-group"><div class="af-label">Email address</div><input class="af-input" type="email" id="siEmail" placeholder="you@example.com"></div>
+      <div class="af-group"><div class="af-label">Password</div><div class="af-input-wrap"><input class="af-input" type="password" id="siPass" placeholder="Enter your password" style="padding-right:38px"><button class="af-eye" onclick="togglePw('siPass',this)" type="button"><svg viewBox="0 0 15 15"><path d="M1 7.5S3.5 3 7.5 3s6.5 4.5 6.5 4.5S13 12 7.5 12 1 7.5 1 7.5z"/><circle cx="7.5" cy="7.5" r="2"/></svg></button></div></div>
+      <div class="af-row"><label class="af-check"><input type="checkbox" checked> Remember me</label><button class="af-link" onclick="showForgot()">Forgot password?</button></div>
+      <button class="auth-submit" onclick="signIn()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>Sign In</button>
+      <div class="auth-switch">No account? <button class="af-link" onclick="switchAuthTab('signup')">Create one free</button></div>
+    </div>
+    <div id="signUpForm">
+      <div class="af-name-row"><div class="af-group" style="margin-bottom:0"><div class="af-label">First name</div><input class="af-input" type="text" id="suFirst" placeholder="Rohan"></div><div class="af-group" style="margin-bottom:0"><div class="af-label">Last name</div><input class="af-input" type="text" id="suLast" placeholder="Verma"></div></div>
+      <div class="af-group"><div class="af-label">Email address</div><input class="af-input" type="email" id="suEmail" placeholder="you@example.com"></div>
+      <div class="af-group"><div class="af-label">Password</div><div class="af-input-wrap"><input class="af-input" type="password" id="suPass" placeholder="Min 8 characters" oninput="pwStrength(this)" style="padding-right:38px"><button class="af-eye" onclick="togglePw('suPass',this)" type="button"><svg viewBox="0 0 15 15"><path d="M1 7.5S3.5 3 7.5 3s6.5 4.5 6.5 4.5S13 12 7.5 12 1 7.5 1 7.5z"/><circle cx="7.5" cy="7.5" r="2"/></svg></button></div><div class="pw-strength"><div class="pw-fill" id="pwFill"></div></div></div>
+      <button class="auth-submit" onclick="signUp()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>Create Account</button>
+      <div class="auth-terms">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</div>
+      <div class="auth-switch">Have an account? <button class="af-link" onclick="switchAuthTab('signin')">Sign in</button></div>
+    </div>
+    <div id="forgotForm" style="display:none">
+      <div class="af-group"><div class="af-label">Email address</div><input class="af-input" type="email" placeholder="Enter your registered email"></div>
+      <button class="auth-submit" onclick="sendReset()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l6 5 6-5"/><rect x="1" y="3" width="14" height="10" rx="2"/></svg>Send Reset Link</button>
+      <div class="auth-switch"><button class="af-link" onclick="showSignIn()">← Back to sign in</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ APP SHELL ══════════════════ -->
+<div class="shell" id="appShell" style="display:none">
+  <aside class="sidebar">
+    <div class="logo-area">
+      <div class="logo-row">
+        <div class="logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="white" stroke-width="1.7"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="7.5" ry="3" fill="white" opacity=".3" stroke="none"/><circle cx="10" cy="10" r="2.5" fill="white" stroke="none"/></svg></div>
+        <span class="logo-wordmark">Derm<em>AI</em></span>
+      </div>
+      <div class="logo-sub">Skin Disease Analyzer</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-group">Analysis</div>
+      <div class="nav-item active" onclick="goTo('analyze')"><svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="5"/><path d="M7.5 5v3l1.5 1.5"/></svg>Analyze Skin</div>
+      <div class="nav-item" onclick="goTo('results')"><svg viewBox="0 0 15 15"><path d="M3 13V5l4.5-2L12 5v8"/><rect x="5" y="8.5" width="5" height="4.5"/></svg>Diagnosis Report</div>
+      <div class="nav-group">Community</div>
+      <div class="nav-item" onclick="goTo('community')"><svg viewBox="0 0 15 15"><circle cx="5" cy="5.5" r="2.2"/><circle cx="10" cy="5.5" r="2.2"/><path d="M1 13c0-2 1.8-3.5 4-3.5h5c2.2 0 4 1.5 4 3.5"/></svg>Community Remedies<span class="nav-pill">3</span></div>
+      <div class="nav-group">My Account</div>
+      <div class="nav-item" onclick="goTo('history')"><svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="5.5"/><path d="M7.5 5v3l2 1"/></svg>Analysis History</div>
+      <div class="nav-item" onclick="goTo('settings')"><svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v2M7.5 12v2M1 7.5h2M12 7.5h2M3 3l1.5 1.5M10.5 10.5L12 12M3 12l1.5-1.5M10.5 4.5L12 3"/></svg>Settings</div>
+      <div class="nav-group">Resources</div>
+      <div class="nav-item"><svg viewBox="0 0 15 15"><path d="M2 3h11v9H2z"/><path d="M5 6.5h5M5 8.5h3"/></svg>Skin Glossary</div>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="ai-pill"><div class="pulse"></div><span class="ai-txt">AI Model Active</span></div>
+      <div class="appear-lbl">Appearance</div>
+      <div class="tsw">
+        <button class="tsw-b on" id="sb-light" onclick="setTheme('light')"><svg viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="2"/><path d="M5.5 1v1M5.5 9v1M1 5.5h1M9 5.5h1M2.3 2.3l.7.7M7.7 7.7l.7.7M2.3 8.7l.7-.7M7.7 3.3l.7-.7"/></svg>Light</button>
+        <button class="tsw-b" id="sb-dark" onclick="setTheme('dark')"><svg viewBox="0 0 11 11"><path d="M9 6.5A4.5 4.5 0 014.5 2a4.5 4.5 0 100 9A4.5 4.5 0 019 6.5z"/></svg>Dark</button>
+        <button class="tsw-b" id="sb-system" onclick="setTheme('system')"><svg viewBox="0 0 11 11"><rect x="1" y="1.5" width="9" height="6.5" rx="1"/><path d="M3.5 10h4M5.5 8v2"/></svg>Auto</button>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-card" onclick="openProfile()">
+        <div class="user-av" id="sbAvatar">?</div>
+        <div style="flex:1;min-width:0;"><div class="user-name" id="sbName">Your Account</div><div class="user-plan">Free Plan · 5 scans left</div></div>
+        <svg viewBox="0 0 12 12" fill="none" stroke="var(--text3)" stroke-width="1.5" width="12" height="12"><path d="M4 5l2 2 2-2"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="tb-title">Skin Analysis</span>
+      <div class="tb-sep"></div>
+      <span class="tb-sub" id="tb-sub">Upload a photo or describe your symptoms</span>
+      <div class="tb-right">
+        <div class="tb-tsw">
+          <button class="tb-b on" id="tb-light" onclick="setTheme('light')" title="Light"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="2.2"/><path d="M6 1v1M6 10v1M1 6h1M10 6h1M2.5 2.5l.7.7M8.8 8.8l.7.7M2.5 9.5l.7-.7M8.8 3.2l.7-.7"/></svg></button>
+          <button class="tb-b" id="tb-dark" onclick="setTheme('dark')" title="Dark"><svg viewBox="0 0 12 12"><path d="M10 7A5 5 0 015 2a5 5 0 100 10 5 5 0 005-5z"/></svg></button>
+          <button class="tb-b" id="tb-system" onclick="setTheme('system')" title="Auto"><svg viewBox="0 0 12 12"><rect x="1" y="2" width="10" height="7" rx="1"/><path d="M4 11h4M6 9v2"/></svg></button>
+        </div>
+        <button class="notif-btn" onclick="openNotifs()"><svg viewBox="0 0 15 15"><path d="M7.5 1.5a5 5 0 015 5v2l1 2H2l1-2v-2a5 5 0 015-5z"/><path d="M6 12.5a1.5 1.5 0 003 0"/></svg><div class="notif-dot"></div></button>
+        <div class="tb-avatar" id="tbAvatar" onclick="openProfile()">?</div>
+        <button class="tb-btn">Export PDF</button>
+        <button class="tb-btn cta" onclick="goTo('analyze')">New Analysis</button>
+      </div>
+    </div>
+
+    <!-- ANALYZE -->
+    <div class="page-content" id="sec-analyze">
+      <div class="ph"><h1>Skin Disease <span>Analyzer</span></h1><p>Upload a clear photo of the affected area, or describe symptoms below for an AI-powered diagnosis</p></div>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileIn').click()">
+        <div class="upl-ring"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor"><path d="M13 4v14M7 10l6-6 6 6" stroke-width="1.5" stroke-linecap="round"/><path d="M4 21h18" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 id="uplTitle">Drop a photo here, or click to browse</h3>
+        <p id="uplSub">Clear, well-lit photo of the affected area gives the most accurate result<br>Supports JPG, PNG, WEBP — up to 15 MB</p>
+        <div class="fmt-row"><span class="fmt">JPG</span><span class="fmt">PNG</span><span class="fmt">WEBP</span></div>
+        <input type="file" id="fileIn" accept="image/*" style="display:none" onchange="handleUpload(event)">
+      </div>
+      <div class="or-div">or describe symptoms manually</div>
+      <div class="fcard">
+        <div class="fsec">Patient & Skin Profile</div>
+        <div class="fg3">
+          <div class="fg"><label>Age range</label><select><option>Select age</option><option>Under 18</option><option>18–30</option><option>31–45</option><option>46–60</option><option>60+</option></select></div>
+          <div class="fg"><label>Skin type</label><select><option>Select type</option><option>Oily</option><option>Dry</option><option>Combination</option><option>Normal</option><option>Sensitive</option></select></div>
+          <div class="fg"><label>Skin tone</label><select><option>Select tone</option><option>Very fair</option><option>Fair</option><option>Medium</option><option>Olive</option><option>Brown</option><option>Dark</option></select></div>
+        </div>
+        <div class="fsec">Affected Area</div>
+        <div class="fg2">
+          <div class="fg"><label>Location on body</label><input type="text" placeholder="e.g. left cheek, inner elbow…"></div>
+          <div class="fg"><label>Area size</label><select><option>Select size</option><option>Tiny (under 1cm)</option><option>Small (1–3cm)</option><option>Medium (3–10cm)</option><option>Large (10cm+)</option><option>Widespread</option></select></div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Duration</label><select><option>How long?</option><option>Appeared today</option><option>2–7 days</option><option>1–4 weeks</option><option>1–3 months</option><option>3+ months</option></select></div>
+          <div class="fg"><label>Progression</label><select><option>Select</option><option>Getting worse</option><option>Stable</option><option>Improving</option><option>Comes and goes</option></select></div>
+        </div>
+        <div class="fsec">Symptoms Present</div>
+        <div class="chips">
+          <span class="chip" onclick="this.classList.toggle('on')">Itching</span><span class="chip" onclick="this.classList.toggle('on')">Redness</span><span class="chip" onclick="this.classList.toggle('on')">Swelling</span><span class="chip" onclick="this.classList.toggle('on')">Dry / Flaking</span><span class="chip" onclick="this.classList.toggle('on')">Burning</span><span class="chip" onclick="this.classList.toggle('on')">Pus / Discharge</span><span class="chip" onclick="this.classList.toggle('on')">Blistering</span><span class="chip" onclick="this.classList.toggle('on')">Dark spots</span><span class="chip" onclick="this.classList.toggle('on')">Cracking</span><span class="chip" onclick="this.classList.toggle('on')">Raised bumps</span><span class="chip" onclick="this.classList.toggle('on')">Crusting</span><span class="chip" onclick="this.classList.toggle('on')">Pain on touch</span><span class="chip" onclick="this.classList.toggle('on')">No pain</span><span class="chip" onclick="this.classList.toggle('on')">Spreading</span>
+        </div>
+        <div class="fsec">Medical Context</div>
+        <div class="fg2">
+          <div class="fg"><label>Known allergies</label><input type="text" placeholder="e.g. nickel, latex, pollen…"></div>
+          <div class="fg"><label>Recent triggers</label><input type="text" placeholder="e.g. new soap, stress…"></div>
+        </div>
+        <div class="fg" style="margin-bottom:0"><label>Additional notes</label><textarea placeholder="Family history, current medications, previous diagnoses…"></textarea></div>
+        <button class="btn-go" onclick="runAnalysis()" style="margin-top:20px;"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3l2 2"/></svg>Run AI Analysis</button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-state" id="sec-loading">
+      <div class="scan-anim-wrap">
+        <div class="scan-anim-outer"></div>
+        <div class="scan-anim-mid"></div>
+        <div class="scan-anim-inner"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="6"/><path d="M6 9c0-1.5 6-1.5 6 0s-6 1.5-6 0z" fill="currentColor" opacity=".3" stroke="none"/></svg></div>
+      </div>
+      <div class="load-title">Analyzing skin condition…</div>
+      <p class="load-sub">Comparing against 200+ dermatological conditions</p>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      <div class="load-steps" id="loadSteps">
+        <div class="lstep active" id="ls1"><div class="lstep-dot"></div>Processing image input</div>
+        <div class="lstep" id="ls2"><div class="lstep-dot"></div>Extracting visual features</div>
+        <div class="lstep" id="ls3"><div class="lstep-dot"></div>Cross-referencing database</div>
+        <div class="lstep" id="ls4"><div class="lstep-dot"></div>Generating diagnosis report</div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-wrap page-content" id="sec-results">
+      <div class="dx-hero">
+        <div class="dx-top">
+          <div class="dx-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8 12c0-2.5 8-2.5 8 0s-8 2.5-8 0z" fill="currentColor" opacity=".25" stroke="none"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg></div>
+          <div class="dx-body">
+            <div class="dx-name">Atopic Dermatitis</div>
+            <div class="dx-aka">Also known as Eczema</div>
+            <div class="dx-tags"><span class="dtag warn">Moderate severity</span><span class="dtag ok">Non-contagious</span><span class="dtag info">Chronic condition</span><span class="dtag neut">Dermatologist advised</span></div>
+          </div>
+          <div class="conf-blk"><div class="conf-lbl">Confidence</div><div class="conf-num">87%</div><div class="conf-bar-wrap"><div class="conf-bar-fill"></div></div></div>
+        </div>
+        <div class="dx-stats">
+          <div class="dxs"><div class="dxs-l">Severity</div><div class="dxs-v warn">Moderate</div></div>
+          <div class="dxs"><div class="dxs-l">Contagious</div><div class="dxs-v ok">No</div></div>
+          <div class="dxs"><div class="dxs-l">Affects</div><div class="dxs-v">All ages</div></div>
+          <div class="dxs"><div class="dxs-l">Typical onset</div><div class="dxs-v">Childhood</div></div>
+        </div>
+      </div>
+      <div class="res-cols">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="rpanel"><div class="rp-ttl">About this condition</div><p class="about-txt">Atopic dermatitis is a chronic, relapsing inflammatory skin disorder defined by intense itch, dry skin, and recurrent eczematous lesions. Part of the atopic triad alongside asthma and allergic rhinitis. The condition stems from a disrupted skin barrier combined with a dysregulated immune response. While there is no cure, evidence-based treatments significantly reduce flare frequency and severity.</p></div>
+          <div class="rpanel"><div class="rp-ttl">Recommended treatments</div>
+            <div class="treat-list">
+              <div class="treat-item"><div class="treat-n">01</div><div class="treat-txt">Apply fragrance-free emollient moisturizer immediately after bathing — minimum twice daily while skin is still damp</div></div>
+              <div class="treat-item"><div class="treat-n">02</div><div class="treat-txt">1% hydrocortisone OTC cream for mild flares — apply thinly once or twice daily on affected areas only</div></div>
+              <div class="treat-item"><div class="treat-n">03</div><div class="treat-txt">Use only gentle, pH-balanced, unscented soaps to minimize further barrier damage</div></div>
+              <div class="treat-item"><div class="treat-n">04</div><div class="treat-txt">Identify and avoid personal triggers — sweat, wool, dust mites, pet dander are common culprits</div></div>
+              <div class="treat-item"><div class="treat-n">05</div><div class="treat-txt">Consult a dermatologist for prescription calcineurin inhibitors or dupilumab if OTC options are insufficient</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="rpanel"><div class="rp-ttl">When to seek care</div>
+            <div class="warn-list">
+              <div class="warn-item"><div class="wdot r"></div><div>Signs of infection — yellow crusting, fever, rapidly spreading redness</div></div>
+              <div class="warn-item"><div class="wdot r"></div><div>Condition severely disrupting sleep or daily life</div></div>
+              <div class="warn-item"><div class="wdot a"></div><div>No improvement after 2 weeks of consistent OTC treatment</div></div>
+              <div class="warn-item"><div class="wdot a"></div><div>Condition affects face, eyelids, or other sensitive areas</div></div>
+              <div class="warn-item"><div class="wdot a"></div><div>Uncertainty about diagnosis — similar conditions need ruling out</div></div>
+            </div>
+          </div>
+          <div class="rpanel"><div class="rp-ttl">Other possible diagnoses</div>
+            <div class="sim-list">
+              <div class="sim-item"><div><div class="sim-name">Contact Dermatitis</div><div class="sim-type">Allergic reaction</div></div><div class="sim-right"><div class="sim-bar-wrap"><div class="sim-bar" style="width:52%"></div></div><span class="sim-pct">52%</span></div></div>
+              <div class="sim-item"><div><div class="sim-name">Psoriasis</div><div class="sim-type">Autoimmune</div></div><div class="sim-right"><div class="sim-bar-wrap"><div class="sim-bar" style="width:31%"></div></div><span class="sim-pct">31%</span></div></div>
+              <div class="sim-item"><div><div class="sim-name">Seborrheic Dermatitis</div><div class="sim-type">Yeast-related</div></div><div class="sim-right"><div class="sim-bar-wrap"><div class="sim-bar" style="width:18%"></div></div><span class="sim-pct">18%</span></div></div>
+              <div class="sim-item"><div><div class="sim-name">Tinea (Ringworm)</div><div class="sim-type">Fungal infection</div></div><div class="sim-right"><div class="sim-bar-wrap"><div class="sim-bar" style="width:9%"></div></div><span class="sim-pct">9%</span></div></div>
+            </div>
+          </div>
+          <div class="disc"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5"/><path d="M7 5v2.5M7 9h.01" stroke-linecap="round"/></svg>For informational reference only — not medical advice. Always consult a qualified dermatologist.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY -->
+    <div class="community-wrap page-content" id="sec-community">
+      <div class="ph"><h1>Community <span>Remedies</span></h1><p>Real experiences from people who have managed skin conditions with homemade remedies</p></div>
+      <div class="add-card">
+        <div class="add-head"><h3>Share a remedy that worked for you</h3><button class="tog" id="togBtn" onclick="toggleForm()">+ Add remedy</button></div>
+        <div class="add-body" id="addBody">
+          <div class="add-grid"><div class="fg"><label>Remedy name</label><input type="text" id="rName" placeholder="e.g. Neem + Turmeric paste"></div><div class="fg"><label>For condition</label><select id="rCond"><option>Eczema / Dermatitis</option><option>Acne</option><option>Psoriasis</option><option>Ringworm</option><option>Rosacea</option><option>Dark spots</option><option>Other</option></select></div></div>
+          <div class="fg" style="margin-bottom:11px;"><label>How to prepare & apply</label><textarea id="rDesc" placeholder="Ingredients, method, frequency, and results you noticed…"></textarea></div>
+          <button class="sub-btn" onclick="addRemedy()">Post Remedy</button>
+        </div>
+      </div>
+      <div class="frow"><button class="fbtn on" onclick="filterR(this,'All')">All conditions</button><button class="fbtn" onclick="filterR(this,'Eczema')">Eczema</button><button class="fbtn" onclick="filterR(this,'Acne')">Acne</button><button class="fbtn" onclick="filterR(this,'Dark spots')">Dark spots</button><button class="fbtn" onclick="filterR(this,'Psoriasis')">Psoriasis</button></div>
+      <div class="rgrid" id="remedyGrid">
+        <div class="rc" data-cond="Eczema"><div class="rc-head"><div><div class="rc-title">Aloe vera + raw honey mask</div><div class="rc-meta">Priya S. · 3 days ago</div></div><span class="h-pill">127</span></div><div class="rc-body">Applied fresh aloe vera gel mixed with raw honey nightly for two weeks. Significant reduction in redness and dryness after just three days. Skin felt noticeably calmer.</div><div class="rc-foot"><button class="vbtn" onclick="castVote(this)"><svg viewBox="0 0 11 11"><path d="M5.5 2v7M2 5.5l3.5-3.5 3.5 3.5"/></svg>Helpful</button><button class="vbtn" onclick="markTried(this)">Tried it</button><span class="ctag">Eczema</span></div></div>
+        <div class="rc" data-cond="Acne"><div class="rc-head"><div><div class="rc-title">Neem steam + virgin coconut oil</div><div class="rc-meta">Rahul M. · 1 week ago</div></div><span class="h-pill">84</span></div><div class="rc-body">Boiled neem leaves, steamed face 10 min, then applied cold-pressed coconut oil every other day. Cystic acne reduced noticeably.</div><div class="rc-foot"><button class="vbtn" onclick="castVote(this)"><svg viewBox="0 0 11 11"><path d="M5.5 2v7M2 5.5l3.5-3.5 3.5 3.5"/></svg>Helpful</button><button class="vbtn" onclick="markTried(this)">Tried it</button><span class="ctag">Acne</span></div></div>
+        <div class="rc" data-cond="Dark spots"><div class="rc-head"><div><div class="rc-title">Turmeric + cold raw milk paste</div><div class="rc-meta">Anjali K. · 2 weeks ago</div></div><span class="h-pill">61</span></div><div class="rc-body">Half tsp turmeric with cold raw milk applied 20 min daily. Skin tone became more even after 3 weeks. Tip: wear old clothes!</div><div class="rc-foot"><button class="vbtn" onclick="castVote(this)"><svg viewBox="0 0 11 11"><path d="M5.5 2v7M2 5.5l3.5-3.5 3.5 3.5"/></svg>Helpful</button><button class="vbtn" onclick="markTried(this)">Tried it</button><span class="ctag">Dark spots</span></div></div>
+        <div class="rc" data-cond="Psoriasis"><div class="rc-head"><div><div class="rc-title">Dead Sea salt soak + shea butter</div><div class="rc-meta">Meera T. · 3 weeks ago</div></div><span class="h-pill">45</span></div><div class="rc-body">2 cups Dead Sea salt in warm bath, 15 min twice weekly, then unrefined shea butter on damp skin. Scaling reduced in 4 weeks.</div><div class="rc-foot"><button class="vbtn" onclick="castVote(this)"><svg viewBox="0 0 11 11"><path d="M5.5 2v7M2 5.5l3.5-3.5 3.5 3.5"/></svg>Helpful</button><button class="vbtn" onclick="markTried(this)">Tried it</button><span class="ctag">Psoriasis</span></div></div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history-wrap page-content" id="sec-history">
+      <div class="ph"><h1>Analysis <span>History</span></h1><p>Your past skin analyses and saved diagnosis reports</p></div>
+      <div class="hist-grid">
+        <div class="hist-card" onclick="goTo('results')"><div class="hist-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-2 6-2 6 0s-6 2-6 0z" fill="currentColor" opacity=".3" stroke="none"/></svg></div><div class="hist-info"><div class="hist-name">Atopic Dermatitis (Eczema)</div><div class="hist-meta">Left forearm · Photo + symptoms</div></div><div class="hist-right"><div class="hist-conf">87%</div><div class="hist-date">Today, 11:32 AM</div></div></div>
+        <div class="hist-card"><div class="hist-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-2 6-2 6 0s-6 2-6 0z" fill="currentColor" opacity=".3" stroke="none"/></svg></div><div class="hist-info"><div class="hist-name">Contact Dermatitis</div><div class="hist-meta">Wrist area · Symptom description</div></div><div class="hist-right"><div class="hist-conf">74%</div><div class="hist-date">Mar 16, 3:14 PM</div></div></div>
+        <div class="hist-card"><div class="hist-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-2 6-2 6 0s-6 2-6 0z" fill="currentColor" opacity=".3" stroke="none"/></svg></div><div class="hist-info"><div class="hist-name">Tinea Versicolor</div><div class="hist-meta">Upper back · Photo analysis</div></div><div class="hist-right"><div class="hist-conf">91%</div><div class="hist-date">Mar 10, 9:07 AM</div></div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="settings-wrap page-content" id="sec-settings">
+      <div class="ph"><h1>Account <span>Settings</span></h1><p>Manage your preferences, notifications, and privacy</p></div>
+      <div class="settings-grid">
+        <div class="set-card"><div class="set-head">Notifications</div><div class="set-row"><div><div class="set-label">Analysis complete alerts</div><div class="set-sub">Get notified when your skin scan finishes</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div><div class="set-row"><div><div class="set-label">Community replies</div><div class="set-sub">When someone replies to your remedy</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div><div class="set-row"><div><div class="set-label">Weekly skin health tip</div><div class="set-sub">Personalized weekly email from DermAI</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div></div>
+        <div class="set-card"><div class="set-head">Privacy</div><div class="set-row"><div><div class="set-label">Save analysis history</div><div class="set-sub">Store past analyses for future reference</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div><div class="set-row"><div><div class="set-label">Anonymous community posts</div><div class="set-sub">Hide your name on shared remedies</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div><div class="set-row"><div><div class="set-label">Help improve AI model</div><div class="set-sub">Allow anonymized data to train the model</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div></div>
+        <div class="set-card"><div class="set-head">Preferences</div><div class="set-row"><div><div class="set-label">Measurement system</div></div><select class="set-select"><option>Metric (cm, kg)</option><option>Imperial (in, lb)</option></select></div><div class="set-row"><div><div class="set-label">Language</div></div><select class="set-select"><option>English</option><option>Hindi</option><option>Tamil</option><option>Spanish</option></select></div></div>
+        <div class="danger-zone"><h3>Danger Zone</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="danger-btn" onclick="toast('Analysis history cleared','warn')">Clear all history</button><button class="danger-btn" onclick="toast('Account deletion request sent','warn')">Delete account</button></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profileOverlay" onclick="closeModal('profileOverlay')">
+  <div class="modal profile-modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('profileOverlay')"><svg viewBox="0 0 13 13"><path d="M2 2l9 9M11 2l-9 9" stroke-linecap="round"/></svg></button>
+    <div class="profile-hero">
+      <div class="profile-av-wrap"><div class="profile-av" id="profileAv">?</div><div class="av-edit" onclick="toast('Photo upload coming soon','info')"><svg viewBox="0 0 10 10"><path d="M1 8l2-2 5-5 1 1-5 5-2 1z"/><path d="M6.5 2l1 1"/></svg></div></div>
+      <div class="profile-name" id="profileName">Your Name</div>
+      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="077e68727547626a666e6b2964686a">[email&#160;protected]</a></div>
+      <div class="profile-badges"><span class="pbadge free">Free Plan</span><span class="pbadge verified">✓ Verified</span><span class="pbadge google" id="googleBadge" style="display:none">G Connected</span></div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-section"><div class="profile-sec-title">Your Stats</div><div class="pf2"><div class="pstat"><div class="pstat-n">3</div><div class="pstat-l">Analyses done</div></div><div class="pstat"><div class="pstat-n">2</div><div class="pstat-l">Remedies shared</div></div></div></div>
+      <div class="profile-section"><div class="profile-sec-title">Plan</div><div class="plan-card"><div class="plan-ico"><svg viewBox="0 0 18 18"><path d="M9 2l2 5h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5z"/></svg></div><div class="plan-info"><h4>Upgrade to Pro</h4><p>Unlimited scans, PDF export, priority AI</p></div><button class="plan-cta" onclick="toast('Upgrade flow coming soon','info');closeModal('profileOverlay')">Upgrade</button></div></div>
+      <div class="profile-section"><div class="profile-sec-title">Account</div><div class="profile-menu"><div class="pmenu-item" onclick="openEditProfile()"><svg viewBox="0 0 15 15"><path d="M2 12l2-2 7-7 2 2-7 7-2 1z"/><path d="M9.5 3.5l2 2"/></svg>Edit profile<span class="pm-right"><svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3l5 3.5-5 3.5"/></svg></span></div><div class="pmenu-item" onclick="closeModal('profileOverlay');goTo('settings')"><svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v2M7.5 12v2M1 7.5h2M12 7.5h2"/></svg>Account settings<span class="pm-right"><svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3l5 3.5-5 3.5"/></svg></span></div><div class="pmenu-item danger" onclick="signOut()"><svg viewBox="0 0 15 15"><path d="M5 3H2v9h3M9 10l3-2.5L9 5M6 7.5h6"/></svg>Sign out</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF MODAL -->
+<div class="modal-overlay" id="notifOverlay" onclick="closeModal('notifOverlay')">
+  <div class="modal notif-modal" style="position:absolute;top:62px;right:20px;" onclick="event.stopPropagation()">
+    <div class="notif-head"><h3>Notifications</h3><button class="notif-mark" onclick="markAllRead()">Mark all read</button></div>
+    <div class="notif-list">
+      <div class="notif-item unread"><div class="notif-icon t-ok"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg></div><div class="notif-text"><h4>Analysis complete</h4><p>Your Atopic Dermatitis report is ready with 87% confidence.</p><div class="notif-time">Just now</div></div></div>
+      <div class="notif-item unread"><div class="notif-icon t-warn"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 10h.01" stroke-linecap="round"/></svg></div><div class="notif-text"><h4>Check-in reminder</h4><p>7 days since your last analysis. Track your progress!</p><div class="notif-time">2 hours ago</div></div></div>
+      <div class="notif-item"><div class="notif-icon t-ok"><svg viewBox="0 0 16 16"><path d="M3 8l4 4 6-7"/></svg></div><div class="notif-text"><h4>Remedy upvoted</h4><p>Your "Aloe vera mask" remedy got 12 new helpful votes.</p><div class="notif-time">Yesterday</div></div></div>
+      <div class="notif-item"><div class="notif-icon t-info"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 6h.01M8 9v3"/></svg></div><div class="notif-text"><h4>New skin tip</h4><p>5 science-backed habits to strengthen your skin barrier.</p><div class="notif-time">Mar 17</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PROFILE -->
+<div class="modal-overlay" id="editOverlay" onclick="closeModal('editOverlay')">
+  <div class="modal" style="width:430px;max-width:95vw;position:relative;padding:30px;" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('editOverlay')"><svg viewBox="0 0 13 13"><path d="M2 2l9 9M11 2l-9 9" stroke-linecap="round"/></svg></button>
+    <div style="font-family:var(--font-serif);font-size:22px;font-weight:400;color:var(--text);margin-bottom:22px;font-style:italic;">Edit Profile</div>
+    <div class="af-name-row"><div class="af-group" style="margin-bottom:0"><div class="af-label">First name</div><input class="af-input" id="epFirst" placeholder="Your first name"></div><div class="af-group" style="margin-bottom:0"><div class="af-label">Last name</div><input class="af-input" id="epLast" placeholder="Your last name"></div></div>
+    <div class="af-group"><div class="af-label">Email</div><input class="af-input" id="epEmail" type="email" placeholder="your@email.com"></div>
+    <div class="af-group"><div class="af-label">New password (leave blank to keep)</div><div class="af-input-wrap"><input class="af-input" type="password" id="epPass" placeholder="New password" style="padding-right:38px"><button class="af-eye" onclick="togglePw('epPass',this)" type="button"><svg viewBox="0 0 15 15"><path d="M1 7.5S3.5 3 7.5 3s6.5 4.5 6.5 4.5S13 12 7.5 12 1 7.5 1 7.5z"/><circle cx="7.5" cy="7.5" r="2"/></svg></button></div></div>
+    <button class="auth-submit" onclick="saveProfile()" style="margin-top:8px;">Save Changes</button>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
